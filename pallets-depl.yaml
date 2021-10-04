@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pallets-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palletservice
+  template:
+    metadata:
+      labels:
+        app: palletservice
+    spec:
+      containers:
+        - name: palletservice
+          image: carlosofsparta/palletservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pallets-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: palletservice
+  ports:
+    - name: palletservice
+      protocol: TCP
+      port: 80
+      targetPort: 80
